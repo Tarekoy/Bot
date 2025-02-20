@@ -56,6 +56,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             font-size: 16px;
             font-weight: bold;
+            cursor: pointer;
+            border: none;
         }
 
         .btn:hover {
@@ -104,6 +106,34 @@
             font-size: 16px;
             cursor: pointer;
         }
+
+        .refer-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .refer-container input {
+            width: 80%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+        }
+
+        .copy-btn {
+            background: #ff9aad;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #ff4d6d;
+        }
     </style>
 </head>
 <body onload="playMusic()">
@@ -111,10 +141,10 @@
         <div class="card">
             <h3>More Ways to Earn</h3>
             <div class="social-buttons">
-                <a href="#refer-section" class="btn refer-btn">
-                    <i class="fas fa-users btn-icon"></i>
-                    Refer Friends
-                </a>
+                <div class="refer-container">
+                    <input type="text" id="refer-link" value="https://t.me/your_bot?start=YOUR_REF_CODE" readonly>
+                    <button class="copy-btn" onclick="copyReferLink()">Copy Link</button>
+                </div>
                 <a href="https://www.youtube.com/@Monetagadmin" target="_blank" class="btn youtube-btn">
                     <i class="fab fa-youtube btn-icon"></i>
                     YouTube Channel
@@ -123,21 +153,21 @@
                     <i class="fab fa-telegram btn-icon"></i>
                     Telegram Group
                 </a>
-                <a href="#" class="btn watch-ads-btn" onclick="watchAd()">
+                <button class="btn watch-ads-btn" onclick="watchAd()">
                     <i class="fas fa-play-circle btn-icon"></i>
                     Watch Ads & Earn
-                </a>
-                <a href="#" class="btn withdraw-btn" onclick="withdraw()">
+                </button>
+                <button class="btn withdraw-btn" onclick="withdraw()">
                     <i class="fas fa-wallet btn-icon"></i>
                     Withdraw Money
-                </a>
+                </button>
             </div>
         </div>
     </div>
 
     <div class="ad-banner">
         <span class="ad-close" onclick="this.parentElement.style.display='none';">&times;</span>
-         Earn Free Coins with <a href="https://monetag.com" target="_blank">Monetag</a>! Tap Now!
+        Earn Free Coins with <a href="https://monetag.com" target="_blank">Monetag</a>! Tap Now!
     </div>
 
     <audio id="bg-music" loop>
@@ -154,24 +184,33 @@
         }
 
         function watchAd() {
-            alert(" Please wait while the ad loads...");
-            //      
-            setTimeout(() => {
-                alert(" Ad watched successfully! You earned coins.");
-                //     (   )
-            }, 5000); // 5   
+            if (typeof Monetag !== "undefined" && Monetag.show) {
+                Monetag.show();
+                setTimeout(() => {
+                    alert("Ad watched! You earned 10 coins.");
+                }, 5000); // Simulate ad completion
+            } else {
+                alert("Ad not available right now. Try again later!");
+            }
         }
 
         function withdraw() {
-            let balance = 100; //    (   )
+            let balance = 100; 
             if (balance >= 50) {
-                alert(" Withdrawal Successful! Check your account.");
-                //     
+                alert("Withdraw request submitted!");
             } else {
-                alert(" You need at least BDT 50 to withdraw.");
+                alert("You need at least BDT 50 to withdraw.");
             }
+        }
+
+        function copyReferLink() {
+            let referInput = document.getElementById("refer-link");
+            referInput.select();
+            referInput.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(referInput.value);
+            alert("Referral link copied!");
         }
     </script>
 
 </body>
-</html>
+                    </html>
